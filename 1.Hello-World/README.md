@@ -54,5 +54,10 @@ Undefined symbols for architecture armv7:
     the iOS Simulator, an OTPublisher object uses a demo video instead of the
     camera.
 
+4.  See [this document][3] for information on using the SDK in apps running in
+    the background mode.
+
+
 [1]: https://dashboard.tokbox.com/projects
 [2]: https://tokbox.com/opentok/libraries/server/
+[3]: http://tokbox.com/opentok/libraries/client/ios/background-state.html
