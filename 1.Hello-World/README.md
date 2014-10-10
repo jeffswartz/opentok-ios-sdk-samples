@@ -2,13 +2,13 @@ Project 1: Hello World
 ======================
 
 The Hello World app is a very simple application meant to get a new developer
-started with using the OpenTok iOS SDK.
+started using the OpenTok iOS SDK.
 
 Application Notes
 -----------------
 
-1.  Follow the code from the UIViewController's viewDidLoad method all the way
-    through the OpenTok callbacks to see how streams are created and handled in
+1.  Follow the code from the `[UIViewController viewDidLoad:]` method through
+    to the OpenTok callbacks to see how streams are created and handled in
     the OpenTok iOS SDK.
 
 2.  In the VideoController.m file, set values for the `kApiKey`, `kSessionId`,
@@ -17,8 +17,28 @@ Application Notes
     [OpenTok server SDKs][2] to generate session IDs and tokens.
     
 3.  By default, all delegate methods from classes in the OpenTok iOS SDK are
-    invoked on the main queue. This means that we can directly modify the view
+    invoked on the main queue. This means that you can directly modify the view
     hierarchy from inside the callback, without any asynchronous callouts.
+
+4.  Use the browser-demo.html file (in located in the root directory of this
+    project), to connect to the OpenTok session and publish an audio-video
+    stream from a web browser:
+
+    * Edit browser-demo.html file and modify the variables `apiKey`,
+      `sessionId`, and `token` with your OpenTok API Key, and with the matching
+      session ID and token. (Note that you would normally use the OpenTok
+      server-side libraries to issue unique tokens to each client in a session.
+      But for testing purposes, you can use the same token on both clients.
+      Also, depending on your app, you may use the OpenTok server-side
+      libraries to generate new sessions.)
+
+    * Add the browser_demo.html file to a web server. (You cannot run WebRTC
+      video in web pages loaded from the desktop.)
+
+    * In a browser, load the browser_demo.html file from the web server. Click
+      the Connect and Publish buttons. Run the app on your iOS device to send
+      and receive streams between the device and the browser.
+
 
 Configuration Notes
 -------------------
@@ -28,7 +48,7 @@ Configuration Notes
     errors while attempting to build the SDK. Frameworks can be added in the
     "Link binary with libraries" phase, in the "Build Phases" tab of the
     application target. For example, removing OpenTok.framework from the linker 
-    phase results with the following error when we attempt to build the
+    phase results with the following error when you attempt to build the
     application:
     
     ```
