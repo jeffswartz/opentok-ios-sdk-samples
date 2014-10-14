@@ -152,11 +152,38 @@ static bool subscribeToSelf = YES;
 
 - (void)sessionDidConnect:(OTSession*)session
 {
-    NSLog(@"sessionDidConnect (%@)", session.sessionId);
-    
     // Step 2: We have successfully connected, now instantiate a publisher and
     // begin pushing A/V streams into OpenTok.
-    [self doPublish];
+    
+    // On iOS 7+, check for camera and microphone access
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"7" options:NSNumericSearch] != NSOrderedAscending) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler: ^(BOOL granted){
+            if(granted){
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler: ^(BOOL granted){
+                    if(granted){
+                        [self doPublish];
+                    } else {
+                        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Access to microphone required"
+                                                                         message:@"This app requires access to the microphone. You can set this in Settings > Privacy > Microphone."
+                                                                        delegate:self
+                                                               cancelButtonTitle:@"OK"
+                                                               otherButtonTitles: nil];
+                        [alert show];
+                    }
+                }];
+            } else {
+                UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Access to camera required"
+                                                                 message:@"This app requires access to the camera. You can set this in Settings > Privacy > Camera."
+                                                                delegate:self
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles: nil];
+                [alert show];
+            }
+        }];
+    // On iOS 6, simply try to publish:
+    } else {
+        [self doPublish];
+    }
 }
 
 - (void)sessionDidDisconnect:(OTSession*)session

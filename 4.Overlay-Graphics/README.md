@@ -30,6 +30,13 @@ Configuration Notes
 Application Notes
 =================
 
+*  This sample checks to see if the user has granted the app access to the
+   camera and microphone. To check for access, the app calls
+   `[AVCaptureDevice requestAccessForMediaType: completionHandler:]` twice,
+   passing in `AVMediaTypeVideo` and `AVMediaTypeAudio`. If the user has
+   denied access, the app displays an alert prompting the user to grant access,
+   access, using the Settings app.
+
 *  This sample shows a toolbar in the publisher that contains a mute microphone
    button. When the user clicks the button, the app calls
    `[OTPublisherKit setPublishAudio:]`, passing in `YES` and `NO` to publish
