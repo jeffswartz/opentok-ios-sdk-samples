@@ -3,11 +3,12 @@
 
 @interface ViewController ()
 <OTSessionDelegate, OTSubscriberDelegate, OTPublisherDelegate>
+@property (strong, nonatomic) OTSession* session;
+@property (strong, nonatomic) OTPublisher* publisher;
+@property (strong, nonatomic) OTSubscriber* subscriber;
 @end
 
-@implementation ViewController {
-    OTSession* _session;
-}
+@implementation ViewController
 
 static NSString* const _apiKey = @"";
 static NSString* const _sessionId = @"";
@@ -16,10 +17,10 @@ static NSString* const _token = @"";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _session = [[OTSession alloc] initWithApiKey:_apiKey
+    self.session = [[OTSession alloc] initWithApiKey:_apiKey
                                        sessionId:_sessionId
                                         delegate:self];
-    [_session connectWithToken:_token error:nil];
+    [self.session connectWithToken:_token error:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,19 +30,19 @@ static NSString* const _token = @"";
 
 - (void)sessionDidConnect:(OTSession*)session
 {
-    OTPublisher *publisher = [[OTPublisher alloc]
+    self.publisher = [[OTPublisher alloc]
                               initWithDelegate:self];
-    [session publish:publisher error:nil];
-    [publisher.view setFrame:CGRectMake(10, 0, 400, 300)];
-    [self.view addSubview:publisher.view];
+    [session publish:self.publisher error:nil];
+    [self.publisher.view setFrame:CGRectMake(10, 0, 400, 300)];
+    [self.view addSubview:self.publisher.view];
 }
 
 - (void)session:(OTSession*)session
   streamCreated:(OTStream *)stream
 {
-    OTSubscriber *subscriber = [[OTSubscriber alloc] initWithStream:stream
+    self.subscriber = [[OTSubscriber alloc] initWithStream:stream
                                                            delegate:self];
-    [session subscribe:subscriber error:nil];
+    [session subscribe:self.subscriber error:nil];
 }
 
 - (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber
